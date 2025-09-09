@@ -1,8 +1,4 @@
-a = int(input("Enter first number: "))
-b = int(input("Enter second number: "))
+a = int(input("Enter a number: "))
+b = int(input("Enter another number to be added to the first: "))
 
-c = a + b
-
-
-print(c)
-
+print("The sum of there numbers is" + str(a + b))
