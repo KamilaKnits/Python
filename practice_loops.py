@@ -78,13 +78,16 @@
 # print(val)
     
 
-text = "I like apples"
+# text = "I like apples"
 
-def my_func():
-    global text
-    text = text + "...but i love oranges better"
-    print("text from the inside: " + text)
+# def my_func():
+#     global text
+#     text = text + "...but i love oranges better"
+#     print("text from the inside: " + text)
 
-my_func()
-print("text from the outside: " + text)
+# my_func()
+# print("text from the outside: " + text)
+
+
+
 
