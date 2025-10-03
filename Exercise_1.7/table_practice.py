@@ -1,0 +1,76 @@
+import sqlalchemy
+from sqlalchemy import create_engine, text, Column
+from sqlalchemy.types import Integer, String
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+
+engine = create_engine("mysql+pymysql://cf-python:password@localhost/my_database")
+Session = sessionmaker(bind=engine)
+session = Session()
+
+# alternative engine using myseql-connector-python:
+#  engine = create_engine("mysql+mysqlconnector://cf-python:password@localhost/my_database")
+
+# with engine.connect() as conn:
+#     result = conn.execute(text("SELECT * FROM recipes"))
+#     for row in result:
+#         print(row)
+
+Base = declarative_base()
+
+#model; data model, it's a new class importing properties from Base
+class Recipe(Base):
+    __tablename__ = "practice_recipes"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(50))
+    ingredients = Column(String(255))
+    cooking_time = Column(Integer)
+    difficulty = Column(String(20))
+
+    # helps identitfy objects easily from the terminal
+    def __repr__(self):
+        return "<Recipe ID: " + str(self.id) + "-" + self.name + ">"
+    
+# creates the tables of all models defined
+Base.metadata.create_all(engine)
+
+tea = Recipe(
+    name = "Tea",
+    cooking_time = 5,
+    ingredients = "Tea Leaves, Water, Honey"
+)
+# add object to database
+session.add(tea)
+# commit entry
+session.commit()
+
+
+coffee = Recipe(
+    name = "Coffee",
+    cooking_time = 5,
+    ingredients = "Coffee Powder, Sugar, Water"
+)
+session.add(coffee)
+session.commit()
+
+cake = Recipe(
+    name = "Cake",
+    cooking_time = 50,
+    ingredients = "Sugar, Butter, Eggs, Vanilla Essence, Flour, Baking Powder, Milk"
+)
+session.add(cake)
+session.commit()
+
+banana_smoothie = Recipe(
+    name = "Banana Smoothie",
+    cooking_time = 5,
+    ingredients = "Bananas, Milk, Peanut Butter, Sugar, Ice Cubes"
+)
+session.add(banana_smoothie)
+session.commit()
+
+for recipe in session.query(Recipe).all():
+    print(recipe)
+
+
