@@ -1,3 +1,38 @@
 from django.test import TestCase
+from  .models import Book
 
 # Create your tests here.
+
+class BookModelTest(TestCase):
+    
+    def setUpTestData():
+        # set up non-modified objects used by all test methods
+        Book.objects.create(
+            name='Pride and Prejudice', 
+            author_name='Jane', 
+            genre= 'classic', 
+            book_type='hardcover',
+            price= '23.71'
+            )
+        
+    def test_book_name(self):
+        #get a book object to test
+        book= Book.objects.get(id=1)
+
+        # get the metadata for the 'name' field and use it to 
+        # query its data
+        field_label = book._meta.get_field('name').verbose_name 
+        
+        # compare the value to the expected result
+        self.assertEqual(field_label, 'name')
+
+    def test_author_name_max_length(self):
+        #get a book object to test
+        book= Book.objects.get(id=1)
+
+        # get the metadata for the 'authorname" field and use it to
+        # query its max-length
+        max_length= book._meta.get_field('author_name').max_length
+
+        # compare the value to the expected results i.e 120
+        self.assertEqual(max_length, 100)
